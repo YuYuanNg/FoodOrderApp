@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const API_KEY = //""//;
+const API_KEY = "__AZURE_KEY_PLACEHOLDER__";
 const orderEndpoint = "https://foodorder-app.azurewebsites.net/api/OrderTrigger";
 const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/...";
 

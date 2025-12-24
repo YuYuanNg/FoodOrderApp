@@ -1,7 +1,9 @@
 name: Deploy to GitHub Pages
-on:
+
+  on:
   push:
-    branches: [ main ] # Trigger every time you push to main
+    branches: [ main ]
+  workflow_dispatch:  # This adds a manual "Run" button
 
 jobs:
   build-and-deploy:

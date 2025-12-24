@@ -1,9 +1,12 @@
 name: Deploy to GitHub Pages
 
-  on:
+on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # This adds a manual "Run" button
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -14,11 +17,10 @@ jobs:
 
       - name: Inject API Key
         run: |
-          # This command finds the placeholder in app.js and replaces it with your Secret
-          sed -i "s/__AZURE_KEY_PLACEHOLDER__/${{ secrets.AZURE_FUNCTION_KEY }}/g" app.js
+          sed -i "s/__AZURE_KEY_PLACEHOLDER__/${{ secrets.AZURE_FUNCTION_KEY }}/g" app.js || true
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: . # Deploys your root folder (index.html, app.js, etc.)
-          branch: gh-pages # Deploys to the gh-pages branch
+          folder: . 
+          branch: gh-pages

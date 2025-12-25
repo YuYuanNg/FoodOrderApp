@@ -1,60 +1,49 @@
-/* General Page Styling */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    padding-top: 50px;
 }
 
-/* Container for the Login Form */
-.login-container {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Styles your login box */
+#login-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     width: 300px;
-    text-align: center;
 }
 
-h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-}
-
-/* Input Fields */
-input[type="email"], 
-input[type="password"] {
+/* Styles your inputs */
+#login-email, #login-pass {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    border-radius: 5px;
+    display: block;
 }
 
-/* Login Button Styling */
+/* Styles your buttons */
 button {
     width: 100%;
     padding: 10px;
-    background-color: #0078d4;
+    background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #005a9e;
+    background-color: #218838;
 }
 
-/* Error Message Styling */
-#error-message {
-    color: #d83b01;
-    font-size: 14px;
-    margin-top: 10px;
+/* Styles the menu once logged in */
+#app-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
 }

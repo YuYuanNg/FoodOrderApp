@@ -2,7 +2,7 @@
 const tenantId = "119b39b3-3572-4fbb-b434-1dd0e649dcaf";
 const clientId = "dd47f4ca-42cf-4664-a139-2d179b2bf48a";
 const clientSecret = " XfF8Q~g~2hIlLIi2Sq0FPYigMMS8zeNDhOR.laC7"; // Warning: Visible to public!
-const scope = "api://<dd47f4ca-42cf-4664-a139-2d179b2bf48a>/.default"; 
+const scope = "api://dd47f4ca-42cf-4664-a139-2d179b2bf48a/access_as_user"; 
 
 async function getAccessToken() {
     const url = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;

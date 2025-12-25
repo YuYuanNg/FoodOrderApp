@@ -1,6 +1,6 @@
 // --- CONFIGURATION ---
 // Principle D: The GitHub Action will replace this placeholder with your real secret
-const API_KEY = "__AZURE_KEY_PLACEHOLDER__"; 
+const API_KEY = "U0wJrkQNj_IDxMz-P9pU5DPMUP30BaJytMIXYGhP_x7hAzFuvtGXPw=="; 
 const orderEndpoint = "https://foodorder-app.azurewebsites.net/api/OrderTrigger";
 const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/..."; // Ensure this is your full URL
 

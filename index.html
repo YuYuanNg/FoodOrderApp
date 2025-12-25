@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Food Express</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-section">
+        <h2>Secure Login</h2>
+        <input type="email" id="login-email" placeholder="Email Address" required>
+        <input type="password" id="login-pass" placeholder="Password" required>
+        <button onclick="handleLogin()">Login</button>
+    </div>
+
+    <div id="app-section" style="display:none;">
+        <h1>Welcome to Food Express</h1>
+        <div id="menu">
+            <h3>Our Menu</h3>
+            <button onclick="placeOrder('Pizza', 12.99)">Order Pizza ($12.99)</button>
+            <button onclick="placeOrder('Burger', 8.50)">Order Burger ($8.50)</button>
+            <button onclick="placeOrder('Noodle', 5.50)">Order Noodle ($5.50)</button>
+            <button onclick="placeOrder('Chicken Rice', 4.50)">Order Chicken Rice ($4.50)</button>
+        </div>
+
+        <hr>
+        <h3>Your Order Status</h3>
+        <div id="status-display">No active orders.</div>
+        <button onclick="trackOrder()">Refresh Status</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

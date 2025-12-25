@@ -1,8 +1,8 @@
 // --- CONFIGURATION ---
 const API_KEY = "U0wJrkQNj_IDxMz-P9pU5DPMUP30BaJytMIXYGhP_x7hAzFuvtGXPw=="; 
 
-// FIX: Added "-function" to the URL to match your actual Azure site name
-const orderEndpoint = `https://foodorder-function-app.azurewebsites.net/api/OrderTrigger?code=${API_KEY}`;
+// The FULL URL required to reach your specific trigger
+const orderEndpoint = `https://foodorder-function-app-bweycfeqf8guevcj.southeastasia-01.azurewebsites.net/api/OrderTrigger?code=${API_KEY}`;
 const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/...";
 
 // --- 1. LOGIN FUNCTION ---

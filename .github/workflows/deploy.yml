@@ -24,4 +24,4 @@ jobs:
         with:
           folder: . 
           branch: gh-pages
-          single-commit: true  # This deletes the old branch and starts fresh each time
+          single-commit: true

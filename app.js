@@ -1,72 +1,29 @@
 // --- CONFIGURATION ---
-const API_KEY = "U0wJrkQNj_IDxMz-P9pU5DPMUP30BaJytMIXYGhP_x7hAzFuvtGXPw=="; 
+const tenantId = "119b39b3-3572-4fbb-b434-1dd0e649dcaf";
+const clientId = "dd47f4ca-42cf-4664-a139-2d179b2bf48a";
+const clientSecret = " XfF8Q~g~2hIlLIi2Sq0FPYigMMS8zeNDhOR.laC7"; // Warning: Visible to public!
+const scope = "api://<dd47f4ca-42cf-4664-a139-2d179b2bf48a>/.default"; 
 
-// The FULL URL required to reach your specific trigger
-const orderEndpoint = `https://foodorder-function-app-bweycfeqf8guevcj.southeastasia-01.azurewebsites.net/api/OrderTrigger?code=${API_KEY}`;
-const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/...";
+async function getAccessToken() {
+    const url = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+    const params = new URLSearchParams();
+    params.append('client_id', clientId);
+    params.append('client_secret', clientSecret);
+    params.append('scope', scope);
+    params.append('grant_type', 'client_credentials');
 
-// --- 1. LOGIN FUNCTION ---
-function handleLogin() {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-
-    if (email && pass) {
-        localStorage.setItem('userEmail', email);
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('app-section').style.display = 'block';
-        console.log("User logged in:", email);
-    } else {
-        alert("Please enter both email and password.");
-    }
+    const response = await fetch(url, { method: 'POST', body: params });
+    const data = await response.json();
+    return data.access_token;
 }
 
-// --- 2. MAIN ORDER FUNCTION ---
-async function placeOrder(itemName, price) {
-    const statusDisplay = document.getElementById('status-display');
-    statusDisplay.innerText = "Processing your order...";
-
-    const orderPayload = {
-        orderId: "ORD-" + Date.now(),
-        email: localStorage.getItem('userEmail'),
-        item: itemName,
-        amount: price,
-        status: "Submitted",
-        timestamp: new Date().toISOString()
-    };
-
-    try {
-        // BYPASS: Headers simplified to 'text/plain' to skip OPTIONS preflight
-        const response = await fetch(orderEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain' 
-            },
-            body: JSON.stringify(orderPayload)
-        });
-
-        if (response.ok) {
-            console.log("Order saved to Cosmos DB successfully.");
-            await sendNotification(orderPayload);
-            statusDisplay.innerText = `Success! Order ${orderPayload.orderId} for ${itemName} confirmed.`;
-        } else {
-            throw new Error("Failed to reach Azure Function");
-        }
-    } catch (error) {
-        console.error("Communication Error:", error);
-        statusDisplay.innerText = "Order failed. Check console for details.";
-    }
-}
-
-// --- 3. HELPER FUNCTION FOR NOTIFICATIONS ---
-async function sendNotification(orderData) {
-    try {
-        await fetch(LOGIC_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-        console.log("Notification sent to Logic App.");
-    } catch (err) {
-        console.error("Notification failed:", err);
-    }
-}
+// In your placeOrder function:
+const token = await getAccessToken();
+const response = await fetch(orderEndpoint, {
+    method: 'POST',
+    headers: {
+        'Authorization': `Bearer ${token}`, // This is your "ID Card"
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(orderData)
+});

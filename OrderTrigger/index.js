@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 module.exports = async function (context, req) {
-    // These headers act as the "permission slip" for your GitHub site
+    // These headers fix the "failed" error in the browser
     const headers = {
         "Access-Control-Allow-Origin": "https://yuyuanng.github.io",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -10,21 +10,21 @@ module.exports = async function (context, req) {
 
     try {
         const orderData = req.body;
-        // Make sure this full URL is pasted here correctly
-        const logicAppUrl = "https://prod-78.southeastasia.logic.azure.com..."; 
+        // Ensure this matches your Logic App "HTTP POST URL"
+        const logicAppUrl = "https://prod-78.southeastasia.logic.azure.com:443/workflows/..."; 
         
         await axios.post(logicAppUrl, orderData);
 
         context.res = {
             status: 200,
-            headers: headers, // Send headers back so the browser sees success
+            headers: headers,
             body: "Order received!"
         };
     } catch (error) {
         context.res = {
             status: 500,
             headers: headers,
-            body: "Backend error"
+            body: "Error: " + error.message
         };
     }
 };

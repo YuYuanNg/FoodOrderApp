@@ -1,20 +1,17 @@
 // --- CONFIGURATION ---
-// Principle D: The GitHub Action will replace this placeholder with your real secret
 const API_KEY = "U0wJrkQNj_IDxMz-P9pU5DPMUP30BaJytMIXYGhP_x7hAzFuvtGXPw=="; 
-const orderEndpoint = "https://foodorder-app.azurewebsites.net/api/OrderTrigger";
-const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/..."; // Ensure this is your full URL
+
+// BYPASS: Key moved to URL via ?code= to stop preflight errors
+const orderEndpoint = `https://foodorder-app.azurewebsites.net/api/OrderTrigger?code=${API_KEY}`;
+const LOGIC_APP_URL = "https://prod-78.southeastasia.logic.azure.com:443/workflows/..."; 
 
 // --- 1. LOGIN FUNCTION ---
-// This matches the onclick="handleLogin()" in your index.html
 function handleLogin() {
     const email = document.getElementById('login-email').value;
     const pass = document.getElementById('login-pass').value;
 
     if (email && pass) {
-        // Principle B: Save email to track who is ordering
         localStorage.setItem('userEmail', email);
-        
-        // Principle A: Smooth transition from login to menu
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('app-section').style.display = 'block';
         console.log("User logged in:", email);
@@ -24,12 +21,10 @@ function handleLogin() {
 }
 
 // --- 2. MAIN ORDER FUNCTION ---
-// Triggered when a user clicks a menu item button
 async function placeOrder(itemName, price) {
     const statusDisplay = document.getElementById('status-display');
     statusDisplay.innerText = "Processing your order...";
 
-    // Create the data object for Azure Cosmos DB
     const orderPayload = {
         orderId: "ORD-" + Date.now(),
         email: localStorage.getItem('userEmail'),
@@ -40,22 +35,18 @@ async function placeOrder(itemName, price) {
     };
 
     try {
-        // Principle D: Securely calling Azure Function using the injected API Key
+        // BYPASS: Headers simplified to 'text/plain' to skip OPTIONS preflight
         const response = await fetch(orderEndpoint, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'x-functions-key': API_KEY 
+                'Content-Type': 'text/plain' 
             },
             body: JSON.stringify(orderPayload)
         });
 
         if (response.ok) {
             console.log("Order saved to Cosmos DB successfully.");
-            
-            // Principle B: Trigger the Notification (Logic App) to send email
             await sendNotification(orderPayload);
-            
             statusDisplay.innerText = `Success! Order ${orderPayload.orderId} for ${itemName} confirmed.`;
         } else {
             throw new Error("Failed to reach Azure Function");
@@ -67,7 +58,6 @@ async function placeOrder(itemName, price) {
 }
 
 // --- 3. HELPER FUNCTION FOR NOTIFICATIONS ---
-// Sends data to Azure Logic Apps to trigger the email workflow
 async function sendNotification(orderData) {
     try {
         await fetch(LOGIC_APP_URL, {

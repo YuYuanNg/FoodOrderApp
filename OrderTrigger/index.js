@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 module.exports = async function (context, req) {
-    // 1. Define the CORS headers
+    // These headers act as the "permission slip" for your GitHub site
     const headers = {
         "Access-Control-Allow-Origin": "https://yuyuanng.github.io",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -10,24 +10,21 @@ module.exports = async function (context, req) {
 
     try {
         const orderData = req.body;
-        // Ensure this is your actual Logic App URL
-        const logicAppUrl = "https://prod-78.southeastasia.logic.azure.com:443/workflows/..."; 
+        // Make sure this full URL is pasted here correctly
+        const logicAppUrl = "https://prod-78.southeastasia.logic.azure.com..."; 
         
-        // 2. Trigger the notification
         await axios.post(logicAppUrl, orderData);
 
-        // 3. Return a successful response with headers
         context.res = {
             status: 200,
-            headers: headers, 
-            body: "Order received and notification sent!"
+            headers: headers, // Send headers back so the browser sees success
+            body: "Order received!"
         };
     } catch (error) {
-        // 4. Return an error response with headers so the browser can read it
         context.res = {
             status: 500,
             headers: headers,
-            body: "Error processing order"
+            body: "Backend error"
         };
     }
 };
